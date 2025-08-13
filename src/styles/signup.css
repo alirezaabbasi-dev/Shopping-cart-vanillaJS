@@ -56,10 +56,10 @@ body {
 
 /* Login Form */
 .login-form {
-  background-color: #ffffff49;
-  box-shadow: 6px 6px 20px 4px #4747474a;
+  background-color: rgba(255, 255, 255, 0.286);
+  box-shadow: 6px 6px 20px 4px rgba(71, 71, 71, 0.29);
   width: 50vw;
-  height: 50vh;
+  height: 80vh;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -78,7 +78,7 @@ body {
   color: #d0d2f8;
   font-size: 48px;
   text-align: center;
-  text-shadow: 6px 9px 13px #00000085;
+  text-shadow: 6px 9px 13px rgba(0, 0, 0, 0.522);
   margin-top: 70px;
 }
 
@@ -100,13 +100,13 @@ body {
   border: none;
   outline: none;
   border-radius: 16px;
-  background-color: #fafafa9c;
+  background-color: rgba(250, 250, 250, 0.612);
   font-size: 1.3rem;
   color: #0f172b;
   transition: all 200ms ease-in;
 }
 .inputs-wrapper input:focus {
-  background: #ffffffd5;
+  background: rgba(255, 255, 255, 0.835);
   box-shadow: 6px 6px 20px 4px #4747474a;
 }
 /* Buttons */
@@ -124,7 +124,7 @@ body {
   border: none;
   outline: none;
   border-radius: 1rem;
-  background: #b1b1b1cc;
+  background: #e3e3e3;
   letter-spacing: 1.5px;
   cursor: pointer;
   transition: all 200ms ease-in;
@@ -145,7 +145,7 @@ body {
   border: none;
   outline: none;
   border-radius: 1rem;
-  background: #d6d6d6cc;
+  background: #efefefdf;
   font-size: 0.9rem;
   font-family: "Roboto-Regular";
   letter-spacing: 1.5px;

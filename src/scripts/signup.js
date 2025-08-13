@@ -12,7 +12,7 @@ function initKiuiBgForm(
   document.body.style.setProperty("--circle-color-1", `${circleColor1}`);
   document.body.style.setProperty("--circle-color-2", `${circleColor2}`);
 }
-initKiuiBgForm("#4c0052", "#000000", "#004452", "#75006c");
+initKiuiBgForm("#00bc7d", "#000", "#00ff84", "#000");
 
 const usernameInput = $.querySelector("#username");
 const passwordInput = $.querySelector("#password");
