@@ -90,7 +90,7 @@ data.map((item) => {
 
 function userBasketProducts() {
   basketWrapper.innerHTML = "";
-  userBasket.reverse().map((item) => {
+  userBasket.map((item) => {
     const { id, name, price, count, img, description } = item;
     const template = `
         <!-- Product -->
@@ -165,7 +165,31 @@ ModalNoBtn.addEventListener("click", () => {
   overlay.classList.remove("active");
 });
 
+const body = document.body;
+const themeToggleBtn = document.getElementById("theme-toggle");
+
+themeToggleBtn.addEventListener("click", () => {
+  body.classList.toggle("dark-theme");
+  let theme = localStorage.getItem("theme");
+  theme === "light"
+    ? localStorage.setItem("theme", "dark")
+    : localStorage.setItem("theme", "light");
+});
+
+function changeTheme() {
+  let theme = localStorage.getItem("theme");
+
+  if (theme) {
+    theme === "light"
+      ? body.classList.remove("dark-theme")
+      : body.classList.add("dark-theme");
+  } else {
+    localStorage.setItem("theme", "light");
+  }
+}
+
 window.addEventListener("load", () => {
   userBasketProducts();
   finallyPriceHandler();
+  changeTheme();
 });
