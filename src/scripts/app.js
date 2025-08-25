@@ -23,7 +23,7 @@ function finallyPriceHandler() {
 }
 
 function basketClickHandler(array) {
-  const { id, name, price, img, description } = array;
+  const { id, name, price, img, description, count } = array;
 
   let isInUserBasket = userBasket.some((product) => product.id === array.id);
   if (isInUserBasket) {
@@ -31,10 +31,16 @@ function basketClickHandler(array) {
       (product) => product.id === array.id
     );
 
-    filteredBasket[0].count += 1;
+    if (count <= filteredBasket[0].count) {
+      showAlert("warn", "you cant add");
+    } else {
+      filteredBasket[0].count += 1;
+      showAlert("success", "product added", 3000);
+    }
   } else {
     const newArray = { id, name, price, count: 1, img, description };
     userBasket.push(newArray);
+    showAlert("success", "product added", 3000);
   }
 }
 
@@ -43,51 +49,45 @@ function deleteProductsFromBasketHandler(id) {
   userBasket = newUserBasket;
   userBasketProducts();
 }
-function increaseCount(array) {
-  const foundItem = userBasket.find((item) => item.id === array.id);
+// Increase product count in basket
+function increaseCount(item) {
+  const foundItem = userBasket.find((i) => i.id === item.id);
+  const productData = data.find((p) => p.id === item.id); // get max available count
   if (foundItem) {
-    foundItem.count++;
-    userBasketProducts(); // UI update
+    if (foundItem.count < productData.count) {
+      foundItem.count++;
+      userBasketProducts(); // update UI
+      showAlert("success", "product added", 3000);
+    } else {
+      showAlert("warn", "you can't add more", 3000);
+    }
   }
 }
 
-function decreaseCount(array) {
-  const foundItem = userBasket.find((item) => item.id === array.id);
-  if (foundItem && foundItem.count > 1) {
-    foundItem.count--;
-    userBasketProducts(); // UI update
-  } else if (foundItem && foundItem.count === 1) {
-    // remove item if count goes to 0
-    deleteProductsFromBasketHandler(array.id);
+// Decrease product count in basket
+function decreaseCount(item) {
+  const foundItem = userBasket.find((i) => i.id === item.id);
+  if (foundItem) {
+    if (foundItem.count > 1) {
+      foundItem.count--;
+      userBasketProducts(); // update UI
+    } else {
+      // remove product if count reaches 0
+      deleteProductsFromBasketHandler(item.id);
+    }
   }
 }
-data.map((item) => {
-  const { name, price, count, img, description } = item;
-  const template = `
-        <div class="box">
-          <div class="box__img">
-            <img src="${img}" alt="">
-          </div>
-          <h4 class="box__title">${name}</h4>
-          <p class="box__description">${description}</p>
-          <div class="box__price-count-wrapper">
-          <span class="box__price">${price.toLocaleString()} $</span>
-          <span class="box__count"> ${count}</span>
-          </div>
-          <button class="box__btn">Add to cart</button>
-        </div>
-  `;
-  container.insertAdjacentHTML("beforeend", template);
+function changeTheme() {
+  let theme = localStorage.getItem("theme");
 
-  const btns = $.querySelectorAll(".box__btn");
-  const btn = btns[btns.length - 1];
-
-  btn.addEventListener("click", () => {
-    basketClickHandler(item);
-    userBasketProducts();
-  });
-});
-
+  if (theme) {
+    theme === "light"
+      ? body.classList.remove("dark-theme")
+      : body.classList.add("dark-theme");
+  } else {
+    localStorage.setItem("theme", "light");
+  }
+}
 function userBasketProducts() {
   basketWrapper.innerHTML = "";
   userBasket.map((item) => {
@@ -138,6 +138,45 @@ function userBasketProducts() {
   });
   finallyPriceHandler();
 }
+function showAlert(alertType = "success", title, duration = 2000) {
+  $.querySelector(".alert-wrapper").insertAdjacentHTML(
+    "afterbegin",
+    `
+  <div class="alert ${alertType === "success" ? "success" : "warn"}">
+    ${title}
+  </div>
+    `
+  );
+  setTimeout(() => {
+    document.querySelector(".alert").remove();
+  }, duration);
+}
+data.map((item) => {
+  const { name, price, count, img, description } = item;
+  const template = `
+        <div class="box">
+          <div class="box__img">
+            <img src="${img}" alt="">
+          </div>
+          <h4 class="box__title">${name}</h4>
+          <p class="box__description">${description}</p>
+          <div class="box__price-count-wrapper">
+          <span class="box__price">${price.toLocaleString()} $</span>
+          <span class="box__count"> ${count}</span>
+          </div>
+          <button class="box__btn">Add to cart</button>
+        </div>
+  `;
+  container.insertAdjacentHTML("beforeend", template);
+
+  const btns = $.querySelectorAll(".box__btn");
+  const btn = btns[btns.length - 1];
+
+  btn.addEventListener("click", () => {
+    basketClickHandler(item);
+    userBasketProducts();
+  });
+});
 
 overlay.addEventListener("click", () => {
   overlay.classList.remove("active");
@@ -175,18 +214,6 @@ themeToggleBtn.addEventListener("click", () => {
     ? localStorage.setItem("theme", "dark")
     : localStorage.setItem("theme", "light");
 });
-
-function changeTheme() {
-  let theme = localStorage.getItem("theme");
-
-  if (theme) {
-    theme === "light"
-      ? body.classList.remove("dark-theme")
-      : body.classList.add("dark-theme");
-  } else {
-    localStorage.setItem("theme", "light");
-  }
-}
 
 window.addEventListener("load", () => {
   userBasketProducts();

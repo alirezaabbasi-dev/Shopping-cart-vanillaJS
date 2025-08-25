@@ -409,3 +409,25 @@ body {
   text-decoration: none;
   color: var(--color-accent);
 }
+.alert-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: fixed;
+  right: 0;
+  top: 0;
+  margin: 2rem;
+}
+.alert {
+  color: #fff;
+  width: 50vw;
+  padding: 2rem;
+  border-radius: 1rem;
+  z-index: 1000;
+}
+.alert.success {
+  background: #00bc7dda;
+}
+.alert.warn {
+  background-color: rgb(237, 80, 80);
+}

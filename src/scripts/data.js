@@ -4,7 +4,7 @@ const products = [
     name: "laptop",
     description: "Lorem ipsum dolor sit, amet consectetur adipisicing.",
     price: "1799",
-    count: 842,
+    count: 4,
     img: "./../../public/images/laptop.jpg",
   },
   {
