@@ -138,6 +138,9 @@ function userBasketProducts() {
   });
   finallyPriceHandler();
 }
+function closeAlertHandler() {
+  this.remove();
+}
 function showAlert(alertType = "success", title, duration = 2000) {
   $.querySelector(".alert-wrapper").insertAdjacentHTML(
     "afterbegin",
@@ -147,10 +150,12 @@ function showAlert(alertType = "success", title, duration = 2000) {
   </div>
     `
   );
+  document.querySelector(".alert").addEventListener("click", closeAlertHandler);
   setTimeout(() => {
     document.querySelector(".alert").remove();
   }, duration);
 }
+
 data.map((item) => {
   const { name, price, count, img, description } = item;
   const template = `
