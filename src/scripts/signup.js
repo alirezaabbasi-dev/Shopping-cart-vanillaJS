@@ -22,9 +22,9 @@ function signup(userName, userPassword) {
   const userNameValidation =
     /^(?=.{3,30}$)(?![._-])(?!.*[._-]{2})[A-Za-z0-9._-]+(?<![._-])$/;
   if (userNameValidation.test(userName)) {
-    cookieHandler(userName)
-  }else{
-    usernameInput.backgroundColor="red"
+    cookieHandler(userName);
+  } else {
+    usernameInput.backgroundColor = "red";
   }
 }
 function cookieHandler(userName) {
@@ -34,7 +34,8 @@ function cookieHandler(userName) {
   document.cookie = `username=${userName};` + expires + ";path=/";
 }
 
-signupBtn.addEventListener("click", () => signup(usernameInput.value, passwordInput.value));
-
-
-
+signupBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  signup(usernameInput.value, passwordInput.value);
+  window.location.href = "/";
+});
